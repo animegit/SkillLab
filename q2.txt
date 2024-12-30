@@ -1,42 +1,46 @@
-# *Question 2*
 
 from pyspark.sql import SparkSession
-from pyspark.sql.types import IntegerType, DoubleType
-import pyspark.sql.functions as F
 
-spark = SparkSession.builder.appName("Question2").getOrCreate()
+# Initialize Spark session
+spark = SparkSession.builder.appName("DataCleaning").getOrCreate()
 
-df = spark.read.csv("/content/Sales Data.csv", header=True)
+# Load dataset (replace 'path_to_file' with the actual path)
+df = spark.read.csv("Sales Data.csv", header=True, inferSchema=True)
 
+# Display the loaded DataFrame
 df.show()
-
-df.select([F.count(F.when(F.col(c).isNull(), c)).alias(c) for c in df.columns]).show()
-
-df_missing = df.filter(F.col('Sales').isNull())
-df_missing.show()
-
+# Verify column names and data types
 df.printSchema()
 
-# the relation is Sales = Quantity Ordered * Price Each
-df = df.withColumn("Sales", F.when(F.col("Sales").isNull(), F.col("Quantity Ordered")*F.col("Price Each")).otherwise(F.col("Sales")))
-df.show()
+# Count null values in each column
+from pyspark.sql.functions import col, isnan, when, count
 
-df.select([F.count(F.when(F.col(c).isNull(), c)).alias(c) for c in df.columns]).show()
+df.select(
+    [count(when(col(c).isNull() | isnan(c), c)).alias(c) for c in df.columns]).show()
 
+# Decide whether to fill or drop rows with missing values
+# For numerical columns, replace nulls with mean values
+from pyspark.sql.functions import mean
+
+numerical_columns = ['Sales', 'Quantity Ordered']
+for col_name in numerical_columns:
+    mean_value = df.select(mean(col_name)).collect()[0][0]
+    df = df.fillna({col_name: mean_value})
+
+# Drop rows with null values in critical columns
+df = df.dropna()
 df = df.dropDuplicates()
+# Cast numerical columns to appropriate types
+df = df.withColumn("Sales", col("Sales").cast("float"))
+df = df.withColumn("Quantity Ordered", col("Quantity Ordered").cast("integer"))
+df = df.withColumn("Price Each", col("Price Each").cast("float"))
 
-df.show()
-
-df.groupBy(df.columns).count().filter("count>1").show()
-
+# Verify schema
 df.printSchema()
+# Remove rows with negative values in specific columns
+columns_to_check = ['Sales', 'Price Each', 'Quantity Ordered']
+for col_name in columns_to_check:
+    df = df.filter(col(col_name) >= 0)
 
-df.filter(F.col("Quantity Ordered")<1).show()
-
-df.filter(F.col("Price Each")<0).show()
-
-df.filter(F.col("Sales")<0).show()
-
-df.groupBy("Product").agg(F.round(F.sum("Sales").alias("Total Sales"),2)).show()
-
-df.coalesce(1).write.csv("Sales_1",header=True)
+# Calculate total sales per product
+df.groupBy("Product").sum("Sales").withColumnRenamed("sum(Sales)", "Total Sales").show()
