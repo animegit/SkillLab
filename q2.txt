@@ -1,0 +1,42 @@
+# *Question 2*
+
+from pyspark.sql import SparkSession
+from pyspark.sql.types import IntegerType, DoubleType
+import pyspark.sql.functions as F
+
+spark = SparkSession.builder.appName("Question2").getOrCreate()
+
+df = spark.read.csv("/content/Sales Data.csv", header=True)
+
+df.show()
+
+df.select([F.count(F.when(F.col(c).isNull(), c)).alias(c) for c in df.columns]).show()
+
+df_missing = df.filter(F.col('Sales').isNull())
+df_missing.show()
+
+df.printSchema()
+
+# the relation is Sales = Quantity Ordered * Price Each
+df = df.withColumn("Sales", F.when(F.col("Sales").isNull(), F.col("Quantity Ordered")*F.col("Price Each")).otherwise(F.col("Sales")))
+df.show()
+
+df.select([F.count(F.when(F.col(c).isNull(), c)).alias(c) for c in df.columns]).show()
+
+df = df.dropDuplicates()
+
+df.show()
+
+df.groupBy(df.columns).count().filter("count>1").show()
+
+df.printSchema()
+
+df.filter(F.col("Quantity Ordered")<1).show()
+
+df.filter(F.col("Price Each")<0).show()
+
+df.filter(F.col("Sales")<0).show()
+
+df.groupBy("Product").agg(F.round(F.sum("Sales").alias("Total Sales"),2)).show()
+
+df.coalesce(1).write.csv("Sales_1",header=True)
