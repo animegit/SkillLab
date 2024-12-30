@@ -1,0 +1,201 @@
+Bar Chart: Total Sales for Each Product
+
+Steps:
+
+1. Drag Product to the Columns shelf.
+
+
+2. Drag Sales to the Rows shelf.
+
+
+3. Set the chart type to Bar Chart.
+
+
+4. Sort the bars by descending total sales (click on the sort icon).
+
+
+5. Add labels to show sales values (click Label in the Marks card and enable Show Mark Labels).
+
+
+
+
+
+---
+
+2. Line Chart: Total Sales Over Time (Grouped by Month)
+
+Steps:
+
+1. Ensure your dataset has a date column (e.g., OrderDate).
+
+
+2. Drag OrderDate to the Columns shelf and set it to Month.
+
+
+3. Drag Sales to the Rows shelf.
+
+
+4. Set the chart type to Line Chart.
+
+
+5. Add labels for clarity by enabling Show Mark Labels in the Marks card.
+
+
+
+
+
+---
+
+3. Bar Chart or Map: Top 10 Cities by Total Sales
+
+Steps for Bar Chart:
+
+1. Drag City to the Columns shelf.
+
+
+2. Drag Sales to the Rows shelf.
+
+
+3. Sort cities in descending order by sales (click the sort icon).
+
+
+4. Create a filter for the Top 10 Cities:
+
+Drag City to the Filters shelf.
+
+Select Top, choose By Field, and set it to Top 10 by Sales.
+
+
+
+
+Steps for Map Visualization:
+
+1. Drag City to Details in the Marks card.
+
+
+2. Drag Sales to Size in the Marks card.
+
+
+3. Set the Marks type to Map.
+
+
+
+
+
+---
+
+4. Stacked Bar Chart: Total Sales for Each Product Split by City
+
+Steps:
+
+1. Drag Product to the Columns shelf.
+
+
+2. Drag Sales to the Rows shelf.
+
+
+3. Drag City to the Color shelf in the Marks card.
+
+
+4. Set the chart type to Stacked Bar Chart.
+
+
+5. Add labels to show city-specific sales values (enable Show Mark Labels).
+
+
+
+
+
+---
+
+5. Treemap: Revenue Contribution of Each Product in Each City
+
+Steps:
+
+1. Drag Product to Color in the Marks card.
+
+
+2. Drag City to Details in the Marks card.
+
+
+3. Drag Sales to Size in the Marks card.
+
+
+4. Set the chart type to Treemap (click Show Me and select Treemap).
+
+
+
+
+
+---
+
+6. Line Chart: Sales Trends for the Top 5 Products by Revenue
+
+Steps:
+
+1. Drag Product to the Filters shelf.
+
+
+2. Select Top, choose By Field, and set it to Top 5 by Sales.
+
+
+3. Drag OrderDate to the Columns shelf and set it to Month.
+
+
+4. Drag Sales to the Rows shelf.
+
+
+5. Drag Product to Color in the Marks card.
+
+
+6. Set the chart type to Line Chart.
+
+
+
+
+
+---
+
+7. Interactive Sales Performance Dashboard
+
+Steps:
+
+1. Create individual worksheets for:
+
+Total sales by product (Bar Chart).
+
+Monthly sales trends (Line Chart).
+
+Top 10 cities by sales (Bar Chart or Map).
+
+Sales split by product and city (Stacked Bar Chart).
+
+Revenue contribution by product and city (Treemap).
+
+Sales trends for the top 5 products (Line Chart).
+
+
+
+2. Go to Dashboard > New Dashboard.
+
+
+3. Drag and drop these worksheets onto the dashboard canvas.
+
+
+4. Add filters for:
+
+City: Drag City to the Filters shelf and add it to the dashboard.
+
+Product: Drag Product to the Filters shelf and add it to the dashboard.
+
+Time Period: Drag OrderDate to the Filters shelf and add it to the dashboard.
+
+
+
+5. Enable interactivity:
+
+Right-click a worksheet in the dashboard and select Use as Filter for key sheets (e.g., Top 10 Cities).
+
+
+
+6. Arrange and format the dashboard for readability and visual appeal.
