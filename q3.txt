@@ -1,0 +1,32 @@
+# *Question 3*
+
+spark = SparkSession.builder.appName("Q3").getOrCreate()
+df = spark.read.csv("/content/Cleaned_DS_Jobs.csv", header=True)
+
+df.show()
+
+df.select([F.count(F.when(F.col(c).isNull(),c)).alias(c) for c in df.columns]).show()
+
+df = df.fillna({'Industry':'unknown'})
+df = df.fillna({'Sector':'unknown'})
+df = df.dropna(subset=['Size','Type of ownership'])
+
+df.select([F.count(F.when(F.col(c).isNull(),c)).alias(c) for c in df.columns]).show()
+
+df.printSchema()
+
+df = df.withColumn("MinSal",F.split(F.col("Salary Estimate"),"-").getItem(0).cast(IntegerType())).withColumn("MaxSal",F.split(F.col("Salary Estimate"),"-").getItem(1).cast(IntegerType()))
+
+df.show()
+
+df = df.withColumn("AvgSal",F.round((F.col("MinSal")+F.col("MaxSal"))/2))
+df.show()
+
+df = df.withColumn("Rating",F.when(F.col("Rating")<=0, 1).otherwise(F.col("Rating")))
+df.show()
+
+df.groupBy("Job Title").agg(F.round(F.avg("AvgSal"),2).alias("Average Salary")).show()
+
+df.groupBy("Size").agg(F.round(F.avg("AvgSal"),2).alias("Average Salary")).show()
+
+df.coalesce(1).write.csv("Q3",header=True)
