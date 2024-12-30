@@ -1,0 +1,54 @@
+Bar Chart: Distribution of GenderCode
+Steps:
+	Open Tableau and connect to the dataset.
+	Drag GenderCode to the Columns shelf.
+	Drag the number of records (Count) to the Rows shelf.
+	Set the chart type to Bar Chart.
+	Add labels for the count by right-clicking on the bar and selecting Show Labels.
+
+2. Pie Chart: Diversity of RaceDesc
+Steps:
+	Drag RaceDesc to the Color shelf.
+	Drag Count to the Size shelf.
+	Set the chart type to Pie Chart (click on Show Me and select Pie Chart).
+	Add percentages by clicking Label in the Marks card and selecting Percentage of Total.
+
+3. Bar Chart: Number of Employees for Each Title
+Steps:
+	Drag Title to the Columns shelf.
+	Drag Count to the Rows shelf.
+	Set the chart type to Bar Chart.
+	Sort the bars by clicking on the sort icon next to the axis.
+
+4. Treemap or Bar Chart: Distribution of Employees Across Divisions
+Steps for Treemap:
+Drag Division to Color and Label in the Marks card.
+Drag Count to Size.
+Set the chart type to Treemap (click Show Me and select Treemap).
+Steps for Bar Chart:
+Drag Division to the Columns shelf.
+Drag Count to the Rows shelf.
+Set the chart type to Bar Chart.
+
+5. Line Chart: Employees Hired Annually
+Steps:
+Create a calculated field to extract the year from StartDate:
+Go to Analysis > Create Calculated Field.
+Name it Year and use the formula:
+text
+Copy code
+YEAR([StartDate])
+Drag Year to the Columns shelf.
+Drag Count to the Rows shelf.
+Set the chart type to Line Chart.
+Add labels for clarity.
+
+7. Interactive Dashboard
+Steps:
+Create individual worksheets for the above charts.
+Go to Dashboard > New Dashboard.
+Drag and drop the worksheets onto the dashboard canvas.
+Add filters for Division, Department, and Year:
+Drag these fields to the Filters shelf in each worksheet.
+Add them as Global Filters in the dashboard.
+Add interactivity by enabling Use as Filter on key charts (right-click on the worksheet in the dashboard and select Use as Filter).
