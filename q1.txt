@@ -1,0 +1,78 @@
+# *Question 1*
+
+from pyspark.sql import SparkSession
+import pyspark.sql.functions as F
+
+spark = SparkSession.builder.appName("Question1").getOrCreate()
+
+#Data Loading
+df = spark.read.csv("/content/emp_data.csv", header=True)
+df.show()
+
+df.select([F.count(F.when(F.col(c).isNull(),c)).alias(c) for c in df.columns]).show()
+
+# Identify rows where specific columns have missing values
+from pyspark.sql.functions import col
+
+# mising_df = df.filter(col("colName").isNull())
+
+df_missing_lastname = df.filter(col("LastName").isNull())
+df_missing_empid = df.filter(col("EmpID").isNull())
+df_missing_startdate = df.filter(col("ExitDate").isNull())
+
+df_missing_lastname.show()
+df_missing_empid.show()
+df_missing_startdate.show()
+
+df = df.fillna({"LastName": "Unknown"})
+
+df = df.dropna(subset=["EmpID", "StartDate","ExitDate"])
+
+df.show()
+
+# Removing outlier from Numeric Data
+from pyspark.sql.functions import col, when
+
+# Cap 'Current Employee Rating' values between 1 and 5
+df = df.withColumn(
+    "CurrentEmployeeRating",
+    when(col("Current Employee Rating") < 1, 1)
+    .when(col("Current Employee Rating") > 5, 5)
+    .otherwise(col("Current Employee Rating"))
+)
+
+# Verify the changes
+df.select("CurrentEmployeeRating").show()
+
+df_duplicates = df.groupBy(df.columns).count().filter("count > 1")
+df_duplicates.show()
+
+# Remove duplicate rows
+df = df.dropDuplicates()
+
+# Or, remove duplicates based on specific columns
+df = df.dropDuplicates(subset=["EmpID"])
+
+# Verify the changes
+df.show()
+
+# Count of the desigation and department
+
+department_designation_count = df.groupBy("DepartmentType", "Title").count()
+
+department_designation_count.show()
+
+from pyspark.sql.types import IntegerType
+
+df = df.withColumn("CurrentEmployeeRating", df["Current Employee Rating"].cast(IntegerType()))
+max_performance_scores = df.groupBy("DepartmentType").max("CurrentEmployeeRating")
+max_performance_scores.show()
+
+highest_performance_employees = df.join(
+    max_performance_scores,
+    (df["DepartmentType"] == max_performance_scores["DepartmentType"]) &
+    (df["CurrentEmployeeRating"] == max_performance_scores["max(CurrentEmployeeRating)"]),
+    "inner"
+).select("*")
+
+highest_performance_employees.show()
