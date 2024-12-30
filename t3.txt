@@ -1,0 +1,102 @@
+Tableau Steps
+
+1. Scatter Plot: Company Ratings Across Different Sectors
+
+1. Drag Sector to Columns.
+
+
+2. Drag Rating to Rows.
+
+
+3. Set the Marks type to Circle.
+
+
+4. Adjust size or color as needed for better visibility.
+
+
+
+2. Bar Chart: Average Salary for Each Job Title
+
+1. Drag Job Title to Columns.
+
+
+2. Drag average_salary to Rows.
+
+
+3. Set aggregation to Average.
+
+
+4. Sort bars in descending order of average salary.
+
+
+
+3. Map Visualization: Job Openings by Location
+
+1. Drag Location to Details in the Marks card.
+
+
+2. Drag the number of records (Count) to Size.
+
+
+3. Set the Marks type to Map.
+
+
+
+4. Bar Chart: Average Salary for Each Sector
+
+1. Drag Sector to Columns.
+
+
+2. Drag average_salary to Rows.
+
+
+3. Set aggregation to Average.
+
+
+4. Sort bars in descending order.
+
+
+
+5. Box Plot: Salary Distribution by Company Size
+
+1. Drag Company Size to Columns.
+
+
+2. Drag average_salary to Rows.
+
+
+3. Set Marks type to Box Plot (select from Show Me).
+
+
+
+6. Stacked Bar Chart: Usage of Python, Tableau, and Spark by Sector
+
+1. Drag Sector to Columns.
+
+
+2. Drag Python, Tableau, and Spark usage counts to Rows (or use calculated fields for counts).
+
+
+3. Drag these fields to Color in the Marks card to create segments.
+
+
+4. Set chart type to Stacked Bar Chart.
+
+
+
+7. Dashboard: Combine All Visualizations
+
+1. Create individual sheets for the above charts.
+
+
+2. Go to Dashboard > New Dashboard.
+
+
+3. Drag and drop sheets into the dashboard.
+
+
+4. Add filters for Sector, Type of Ownership, and Industry:
+
+Drag these fields to the Filters shelf in each worksheet.
+
+Add them to the dashboard as filter controls
